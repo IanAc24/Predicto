@@ -1,6 +1,31 @@
 export const add = {
   title: 'Add a stock',
   placeholder: 'Search for a stock to follow.',
+  searchLabel: 'Search by company name or symbol',
+  searchPlaceholder: 'e.g. Nike or NKE',
+  hint: 'Type a company name or a symbol to find a stock to follow.',
+  suggestionsLabel: 'Try one of these',
+  resultsLabel: 'Search results',
+  noResults: 'No stocks match “{q}”. Check the spelling or try the symbol.',
+  listingsNote:
+    'Some companies have more than one listing. Each listing is a separate stock and is tracked separately, with its own prices and predictions.',
+  add: 'Add',
+  adding: 'Adding…',
+  addLabel: 'Add {name} ({symbol}, {exchange})',
+  following: 'Following',
+  remove: 'Remove',
+  removeLabel: 'Remove {name} ({symbol}, {exchange})',
+  removing: 'Removing…',
+  confirmRemove: 'Stop following {name} ({symbol}, {exchange})?',
+  confirmRemoveYes: 'Yes, remove',
+  cancel: 'Cancel',
+  addedConfirm: 'Added. Observing for {weeks} weeks before the first prediction.',
+  addedConfirmGeneric: 'Added. Observing for a few weeks before the first prediction.',
+  viewStock: 'Open {name} ({symbol})',
+  addError: 'Could not add {name}. Nothing was changed.',
+  removeError: 'Could not remove {name}. Nothing was changed.',
+  followingTitle: 'Following',
+  followingEmpty: 'You are not following any stocks yet. Search above to add one.',
 } as const
 
 export type AddDict = Record<keyof typeof add, string>
