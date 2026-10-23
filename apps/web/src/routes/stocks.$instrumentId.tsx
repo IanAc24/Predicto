@@ -1,10 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useT } from '../i18n/useT'
-import { ScreenTitle } from '../ui'
+import type { BarRange } from '../api/types'
+import { DetailScreen } from '../features/detail/DetailScreen'
+import { parseRange } from '../features/detail/range'
 
-export const Route = createFileRoute('/stocks/$instrumentId')({ component: DetailScreen })
-
-function DetailScreen() {
-  const { t } = useT()
-  return <ScreenTitle>{t('detail.title')}</ScreenTitle>
+type DetailSearch = {
+  range: BarRange
+  /** Mock API scenario; read from the URL at startup by the mock store, kept here so it survives navigation. */
+  scenario?: string
 }
+
+export const Route = createFileRoute('/stocks/$instrumentId')({
+  validateSearch: (search: { range?: unknown; scenario?: unknown }): DetailSearch => ({
+    range: parseRange(search.range),
+    ...(typeof search.scenario === 'string' ? { scenario: search.scenario } : {}),
+  }),
+  component: DetailScreen,
+})
