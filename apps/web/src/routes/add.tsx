@@ -1,10 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useT } from '../i18n/useT'
-import { ScreenTitle } from '../ui'
+import { AddScreen } from '../features/add/AddScreen'
 
-export const Route = createFileRoute('/add')({ component: AddScreen })
-
-function AddScreen() {
-  const { t } = useT()
-  return <ScreenTitle>{t('add.title')}</ScreenTitle>
-}
+export const Route = createFileRoute('/add')({
+  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
+    q: typeof search.q === 'string' && search.q ? search.q : undefined,
+  }),
+  component: AddScreen,
+})
