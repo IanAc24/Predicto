@@ -1,11 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Placeholder } from '../components/Placeholder'
+import { useT } from '../i18n/useT'
+import { ScreenTitle } from '../ui'
 
-export const Route = createFileRoute('/stocks/$instrumentId')({
-  component: StockDetail,
-})
+export const Route = createFileRoute('/stocks/$instrumentId')({ component: DetailScreen })
 
-function StockDetail() {
-  const { instrumentId } = Route.useParams()
-  return <Placeholder title={instrumentId} note="Price chart and prediction panel will appear here." />
+function DetailScreen() {
+  const { t } = useT()
+  return <ScreenTitle>{t('detail.title')}</ScreenTitle>
 }

@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Placeholder } from '../components/Placeholder'
+import { useT } from '../i18n/useT'
+import { ScreenTitle } from '../ui'
 
-export const Route = createFileRoute('/')({
-  component: () => (
-    <Placeholder title="Watchlist" note="Followed stocks and their prediction state will appear here." />
-  ),
-})
+export const Route = createFileRoute('/')({ component: WatchlistScreen })
+
+function WatchlistScreen() {
+  const { t } = useT()
+  return <ScreenTitle>{t('watchlist.title')}</ScreenTitle>
+}

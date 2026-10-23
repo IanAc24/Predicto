@@ -7,6 +7,8 @@ Plan and work packages: `docs/Stock prediction app build plan.md`.
 ## Layout
 
 - `apps/web` - Vite + React + TypeScript SPA (TanStack Router file routes in `src/routes`, TanStack Query, Tailwind v4)
+  - `src/ui` shared components (Tailwind + design tokens in `index.css`), `src/ui/shell` app bar and layout; `src/api` domain types, TanStack Query hooks and the mock backend (`src/api/mock`); `src/i18n` en/es dictionaries, one file per namespace (`useT()`); `src/settings` language and theme; `src/lib` formatters; `src/features` one folder per screen (empty for now)
+  - Mock scenarios: add `?scenario=default|empty|observing|stale|error` to the URL (read once at startup)
 - `packages/` - shared packages (generated API client will live in `packages/api-client`)
 - `contracts/` - hand-authored OpenAPI contract (source of truth for the API)
 - `docs/` - build plan and research notes

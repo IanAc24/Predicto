@@ -1,1 +1,399 @@
 @import 'tailwindcss';
+
+/* Design tokens, ported from the Finance_App. Dark is the default theme;
+   light is applied with data-theme='light' on <html> (see SettingsProvider). */
+:root {
+  color-scheme: dark;
+  --bg: #0b1114;
+  --surface: #121b20;
+  --surface-2: #1a262c;
+  --border: #243239;
+  --text: #e6eef0;
+  --muted: #94a8ad;
+
+  /* Brand teal: only for things that can be tapped, and accents */
+  --accent: #2dd4bf;
+  --accent-dim: rgba(45, 212, 191, 0.3);
+  --on-accent: #04201c;
+
+  /* Meaning colours: up (mint) and down (coral); always paired with a sign or arrow */
+  --up: #34d399;
+  --down: #fb7185;
+  --down-dim: rgba(251, 113, 133, 0.62);
+  --warning: #fbbf24;
+  --danger: #f35b5b;
+
+  /* Hero card */
+  --hero-from: #123038;
+  --hero-stop: 85%;
+  --hero-glow: rgba(45, 212, 191, 0.14);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f2ee;
+  --surface: #ffffff;
+  --surface-2: #ece8e1;
+  --border: #ddd7ce;
+  --text: #14201f;
+  --muted: #5b6b6a;
+
+  --accent: #0f766e;
+  --accent-dim: rgba(15, 118, 110, 0.3);
+  --on-accent: #ffffff;
+
+  --up: #15803d;
+  --down: #d1103f;
+  --down-dim: rgba(209, 16, 63, 0.62);
+  --warning: #a04a08;
+  --danger: #b91c1c;
+
+  --hero-from: #e3f3f0;
+  --hero-stop: 40%;
+  --hero-glow: rgba(15, 118, 110, 0.12);
+}
+
+/* Expose the tokens as Tailwind utilities: bg-bg, bg-surface, text-muted, text-up ... */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-on-accent: var(--on-accent);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-down-dim: var(--down-dim);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --font-display: 'Poppins', system-ui, sans-serif;
+}
+
+/* Base */
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  /* Equal-width digits so figures line up */
+  font-variant-numeric: tabular-nums;
+}
+
+button {
+  font-family: inherit;
+}
+
+::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+/* Visible outline for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Screen container: centred column, phone width; wider on desktop */
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 8px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* App bar: sticky. Phones: two rows (brand + gear / tabs), only the tabs row
+   stays visible on scroll. Desktop: a single row. */
+.app-bar {
+  position: sticky;
+  /* row 1 height: 8px padding + 44px logo + 8px row gap = 60px */
+  top: -60px;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'brand gear'
+    'tabs tabs';
+  align-items: center;
+  gap: 8px 12px;
+  padding: 8px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  grid-area: brand;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 44px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.brand-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.title-accent {
+  color: var(--accent);
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.logo-bar {
+  fill: var(--accent);
+}
+
+.logo-bar-1 {
+  opacity: 0.45;
+}
+
+.logo-bar-2 {
+  opacity: 0.7;
+}
+
+.logo-bar-3 {
+  opacity: 1;
+}
+
+.logo-line {
+  stroke: var(--text);
+}
+
+.logo-arrow {
+  stroke: var(--accent);
+}
+
+.app-bar .icon-link {
+  grid-area: gear;
+  justify-self: end;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.icon-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.app-bar .icon-link.active {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -64px;
+  z-index: 30;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+.top-nav {
+  grid-area: tabs;
+  display: flex;
+  justify-content: safe center;
+  gap: 8px;
+  /* 4px padding leaves room for the focus outline that overflow would clip */
+  margin: -4px;
+  padding: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.top-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.top-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.top-nav a.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+@media (max-width: 440px) {
+  .top-nav a {
+    flex: 1 0 auto;
+    padding: 10px 8px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .app-bar {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .top-nav {
+    gap: 6px;
+  }
+
+  .top-nav a {
+    padding: 10px 6px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 359px) {
+  .brand-name {
+    display: none;
+  }
+}
+
+/* Two columns on desktop, one on phones (see the Columns component) */
+.cols {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.card-hero {
+  background: linear-gradient(160deg, var(--hero-from) 0%, var(--surface) var(--hero-stop));
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 28px var(--hero-glow);
+}
+
+.loading-logo {
+  opacity: 0.85;
+}
+
+@media (min-width: 900px) {
+  .app-bar {
+    top: 0;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-areas: 'brand tabs gear';
+    padding: 12px 24px;
+  }
+
+  .top-nav {
+    justify-self: center;
+  }
+
+  .logo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .brand {
+    min-height: 56px;
+    gap: 12px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+  }
+
+  main {
+    max-width: 1120px;
+    padding: 24px 32px 64px;
+    gap: 20px;
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .col {
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .loading-logo {
+    animation: logo-pulse 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes logo-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

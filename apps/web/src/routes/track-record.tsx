@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Placeholder } from '../components/Placeholder'
+import { useT } from '../i18n/useT'
+import { ScreenTitle } from '../ui'
 
-export const Route = createFileRoute('/track-record')({
-  component: () => (
-    <Placeholder title="Track record" note="Every past prediction and its outcome will appear here." />
-  ),
-})
+export const Route = createFileRoute('/track-record')({ component: TrackRecordScreen })
+
+function TrackRecordScreen() {
+  const { t } = useT()
+  return <ScreenTitle>{t('trackRecord.title')}</ScreenTitle>
+}

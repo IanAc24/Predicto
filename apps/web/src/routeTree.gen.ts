@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AddRouteImport } from './routes/add'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as TrackRecordRouteImport } from './routes/track-record'
 import { Route as StocksInstrumentIdRouteImport } from './routes/stocks.$instrumentId'
@@ -17,6 +18,11 @@ import { Route as StocksInstrumentIdRouteImport } from './routes/stocks.$instrum
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AddRoute = AddRouteImport.update({
+  id: '/add',
+  path: '/add',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -37,12 +43,14 @@ const StocksInstrumentIdRoute = StocksInstrumentIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/add': typeof AddRoute
   '/settings': typeof SettingsRoute
   '/track-record': typeof TrackRecordRoute
   '/stocks/$instrumentId': typeof StocksInstrumentIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/add': typeof AddRoute
   '/settings': typeof SettingsRoute
   '/track-record': typeof TrackRecordRoute
   '/stocks/$instrumentId': typeof StocksInstrumentIdRoute
@@ -50,20 +58,29 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/add': typeof AddRoute
   '/settings': typeof SettingsRoute
   '/track-record': typeof TrackRecordRoute
   '/stocks/$instrumentId': typeof StocksInstrumentIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/settings' | '/track-record' | '/stocks/$instrumentId'
+  fullPaths:
+    '/' | '/add' | '/settings' | '/track-record' | '/stocks/$instrumentId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/settings' | '/track-record' | '/stocks/$instrumentId'
-  id: '__root__' | '/' | '/settings' | '/track-record' | '/stocks/$instrumentId'
+  to: '/' | '/add' | '/settings' | '/track-record' | '/stocks/$instrumentId'
+  id:
+    | '__root__'
+    | '/'
+    | '/add'
+    | '/settings'
+    | '/track-record'
+    | '/stocks/$instrumentId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AddRoute: typeof AddRoute
   SettingsRoute: typeof SettingsRoute
   TrackRecordRoute: typeof TrackRecordRoute
   StocksInstrumentIdRoute: typeof StocksInstrumentIdRoute
@@ -76,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/add': {
+      id: '/add'
+      path: '/add'
+      fullPath: '/add'
+      preLoaderRoute: typeof AddRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -104,6 +128,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AddRoute: AddRoute,
   SettingsRoute: SettingsRoute,
   TrackRecordRoute: TrackRecordRoute,
   StocksInstrumentIdRoute: StocksInstrumentIdRoute,
