@@ -16,7 +16,7 @@ export function AppBar() {
       >
         <Logo />
         <span className="brand-name">
-          {t('common.appNameMain')} <span className="title-accent">{t('common.appNameAccent')}</span>
+          {t('common.appNameMain')}<span className="title-accent">{t('common.appNameAccent')}</span>
         </span>
       </Link>
       <TopNav />

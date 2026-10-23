@@ -27,7 +27,7 @@ async function tabTo(page: Page, name: RegExp, limit = 60) {
 test('the app bar is reachable in a logical order with a visible focus ring', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-  const order = ['Skip to content', 'Stock Predictor', 'Watchlist', 'Add', 'Track record', 'Settings']
+  const order = ['Skip to content', 'Predicto', 'Watchlist', 'Add', 'Track record', 'Settings']
   const seen: string[] = []
   for (let i = 0; i < order.length; i++) {
     await page.keyboard.press('Tab')

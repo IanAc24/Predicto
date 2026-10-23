@@ -1,7 +1,7 @@
 export const common = {
-  appName: 'Stock Predictor',
-  appNameMain: 'Stock',
-  appNameAccent: 'Predictor',
+  appName: 'Predicto',
+  appNameMain: 'Predict',
+  appNameAccent: 'o',
   homeLink: 'Go to the watchlist',
   skipToContent: 'Skip to content',
   navWatchlist: 'Watchlist',

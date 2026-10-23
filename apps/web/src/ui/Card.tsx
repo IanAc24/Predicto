@@ -5,7 +5,7 @@ import { cx } from '../lib/cx'
 export function Card({ className, ...props }: ComponentProps<'section'>) {
   return (
     <section
-      className={cx('rounded-2xl border border-border bg-surface p-5', className)}
+      className={cx('card p-5', className)}
       {...props}
     />
   )

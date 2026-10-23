@@ -4,13 +4,13 @@ import { readPref, writePref } from './prefs'
 import { SettingsContext, type Theme } from './SettingsContext'
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  // English unless Spanish was saved; dark unless light was saved.
+  // English unless Spanish was saved; light unless dark was saved.
   // Only a choice made in Settings is written, so a fresh install is never pinned.
   const [language, setLanguageState] = useState<Language>(() =>
     readPref('lang') === 'es' ? 'es' : 'en',
   )
   const [theme, setThemeState] = useState<Theme>(() =>
-    readPref('theme') === 'light' ? 'light' : 'dark',
+    readPref('theme') === 'dark' ? 'dark' : 'light',
   )
 
   const setLanguage = useCallback((next: Language) => {

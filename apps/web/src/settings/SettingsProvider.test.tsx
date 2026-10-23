@@ -9,7 +9,7 @@ function Probe() {
     <div>
       <span data-testid="state">{`${language}/${theme}`}</span>
       <button onClick={() => setLanguage('es')}>es</button>
-      <button onClick={() => setTheme('light')}>light</button>
+      <button onClick={() => setTheme('dark')}>dark</button>
     </div>
   )
 }
@@ -27,22 +27,22 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
-test('defaults to English and dark, and applies them to <html>', () => {
+test('defaults to English and light, and applies them to <html>', () => {
   renderProbe()
-  expect(screen.getByTestId('state')).toHaveTextContent('en/dark')
+  expect(screen.getByTestId('state')).toHaveTextContent('en/light')
   expect(document.documentElement.lang).toBe('en')
-  expect(document.documentElement.dataset.theme).toBe('dark')
+  expect(document.documentElement.dataset.theme).toBe('light')
 })
 
 test('persists changes and reads them back', () => {
   const first = renderProbe()
   act(() => screen.getByText('es').click())
-  act(() => screen.getByText('light').click())
+  act(() => screen.getByText('dark').click())
   expect(document.documentElement.lang).toBe('es')
-  expect(document.documentElement.dataset.theme).toBe('light')
+  expect(document.documentElement.dataset.theme).toBe('dark')
   first.unmount()
   renderProbe()
-  expect(screen.getByTestId('state')).toHaveTextContent('es/light')
+  expect(screen.getByTestId('state')).toHaveTextContent('es/dark')
 })
 
 test('survives localStorage throwing', () => {
@@ -54,5 +54,5 @@ test('survives localStorage throwing', () => {
   })
   renderProbe()
   act(() => screen.getByText('es').click())
-  expect(screen.getByTestId('state')).toHaveTextContent('es/dark')
+  expect(screen.getByTestId('state')).toHaveTextContent('es/light')
 })

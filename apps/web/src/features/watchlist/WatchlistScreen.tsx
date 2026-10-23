@@ -12,7 +12,6 @@ import {
   Label,
   Pill,
   PillGroup,
-  Row,
   ScreenTitle,
   SignedChange,
   Sparkline,
@@ -152,27 +151,21 @@ function StockRow({ item }: { item: WatchlistItem }) {
       params={{ instrumentId: instrument.id }}
       className="block rounded-xl text-inherit no-underline"
     >
-      <Row
-        name={
-          <>
-            {instrument.name} <span className="ml-1 text-muted">{instrument.symbol}</span>
-          </>
-        }
-        meta={`${instrument.exchange} · ${instrument.currency}`}
-        right={
-          <div className="flex items-center gap-3">
-            <Sparkline
-              values={item.sparkline}
-              label={t('watchlist.trend', { symbol: instrument.symbol })}
-            />
-            <div className="flex flex-col items-end gap-1">
-              <span className="tabular-nums">{formatMoney(item.lastClose, instrument.currency, locale)}</span>
-              <SignedChange value={item.changePct} className="text-xs" />
-              {badge}
-            </div>
-          </div>
-        }
-      />
+      {/* Three lines so long names wrap instead of being cut off on phones */}
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1">
+        <p className="min-w-0 break-words text-base">
+          {instrument.name} <span className="ml-1 text-muted">{instrument.symbol}</span>
+        </p>
+        <div className="flex items-center gap-3">
+          <Sparkline values={item.sparkline} label={t('watchlist.trend', { symbol: instrument.symbol })} />
+          <span className="text-base font-semibold tabular-nums">
+            {formatMoney(item.lastClose, instrument.currency, locale)}
+          </span>
+        </div>
+        <p className="text-xs text-muted">{`${instrument.exchange} · ${instrument.currency}`}</p>
+        <SignedChange value={item.changePct} className="justify-self-end text-xs" />
+        <div className="col-span-2 mt-1">{badge}</div>
+      </div>
     </Link>
   )
 }

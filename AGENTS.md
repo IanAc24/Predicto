@@ -1,4 +1,4 @@
-# Stock Predictor
+# Predicto
 
 Personal app that follows a watchlist of stocks (e.g. Nike, Adidas), observes them for weeks,
 then shows a calibrated probability that each will be up over the next 5 trading days.

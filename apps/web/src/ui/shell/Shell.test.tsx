@@ -31,7 +31,7 @@ async function renderAt(path: string) {
 
 test('shell shows brand, tabs, settings link and disclaimer', async () => {
   await renderAt('/')
-  expect(screen.getByRole('link', { name: /Stock Predictor/ })).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: /Predicto/ })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Watchlist' })).toHaveAttribute('aria-current', 'page')
   expect(screen.getByRole('link', { name: 'Add' })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Track record' })).toBeInTheDocument()

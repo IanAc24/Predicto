@@ -1,56 +1,60 @@
 @import 'tailwindcss';
 
-/* Design tokens, ported from the Finance_App. Dark is the default theme;
-   light is applied with data-theme='light' on <html> (see SettingsProvider). */
+/* Design tokens: the "Mint" palette. Light is the default theme;
+   dark is applied with data-theme='dark' on <html> (see SettingsProvider). */
 :root {
-  color-scheme: dark;
-  --bg: #0b1114;
-  --surface: #121b20;
-  --surface-2: #1a262c;
-  --border: #243239;
-  --text: #e6eef0;
-  --muted: #94a8ad;
-
-  /* Brand teal: only for things that can be tapped, and accents */
-  --accent: #2dd4bf;
-  --accent-dim: rgba(45, 212, 191, 0.3);
-  --on-accent: #04201c;
-
-  /* Meaning colours: up (mint) and down (coral); always paired with a sign or arrow */
-  --up: #34d399;
-  --down: #fb7185;
-  --down-dim: rgba(251, 113, 133, 0.62);
-  --warning: #fbbf24;
-  --danger: #f66a6a;
-
-  /* Hero card */
-  --hero-from: #123038;
-  --hero-stop: 85%;
-  --hero-glow: rgba(45, 212, 191, 0.14);
-}
-
-:root[data-theme='light'] {
   color-scheme: light;
-  --bg: #f5f2ee;
-  --surface: #ffffff;
-  --surface-2: #ece8e1;
-  --border: #ddd7ce;
-  --text: #14201f;
-  --muted: #5b6b6a;
+  --bg: #ecf6ef;
+  --surface: #fbfefc;
+  --surface-2: #ddeee3;
+  --border: #c9e0d1;
+  --text: #15301e;
+  --muted: #4b6655;
 
-  --accent: #0d6d65;
-  --accent-dim: rgba(13, 109, 101, 0.3);
+  /* Blueberry accent: only for things that can be tapped, and accents */
+  --accent: #3b55d9;
+  --accent-dim: rgba(59, 85, 217, 0.28);
   --on-accent: #ffffff;
 
-  --up: #13733a;
-  --down: #c40f3a;
-  --down-dim: rgba(196, 15, 58, 0.62);
-  --warning: #a04a08;
+  /* Meaning colours: up and down; always paired with a sign or arrow */
+  --up: #12773a;
+  --down: #c62f45;
+  --down-dim: rgba(198, 47, 69, 0.6);
+  --warning: #8a5a00;
   --danger: #b91c1c;
 
-  --hero-from: #e3f3f0;
-  --hero-stop: 40%;
-  --hero-glow: rgba(15, 118, 110, 0.12);
+  /* Hero card: a soft blueberry wash, no glow */
+  --hero-from: #e2e8ff;
+  --hero-stop: 65%;
+  --hero-shadow: none;
+
+  /* Card shape: flat, crisp borders, generous corners */
+  --card-radius: 28px;
+  --card-border: var(--border);
+  --card-shadow: none;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f1a14;
+  --surface: #16241c;
+  --surface-2: #1f3127;
+  --border: #2b4335;
+  --text: #e9f6ee;
+  --muted: #9fbaa8;
+
+  --accent: #93a8ff;
+  --accent-dim: rgba(147, 168, 255, 0.3);
+  --on-accent: #0b1640;
+
+  --up: #5be08e;
+  --down: #ff7d8c;
+  --down-dim: rgba(255, 125, 140, 0.6);
+  --warning: #f5c04a;
+  --danger: #ff7272;
+
+  --hero-from: #1d2b4d;
+  --hero-stop: 75%;
 }
 
 /* Expose the tokens as Tailwind utilities: bg-bg, bg-surface, text-muted, text-up ... */
@@ -324,10 +328,17 @@ main {
   min-width: 0;
 }
 
+.card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
+}
+
 .card-hero {
   background: linear-gradient(160deg, var(--hero-from) 0%, var(--surface) var(--hero-stop));
   border-color: var(--accent-dim);
-  box-shadow: 0 0 28px var(--hero-glow);
+  box-shadow: var(--hero-shadow);
 }
 
 .loading-logo {

@@ -1,9 +1,9 @@
 import type { CommonDict } from '../en/common'
 
 export const common: CommonDict = {
-  appName: 'Stock Predictor',
-  appNameMain: 'Stock',
-  appNameAccent: 'Predictor',
+  appName: 'Predicto',
+  appNameMain: 'Predict',
+  appNameAccent: 'o',
   homeLink: 'Ir a la lista de seguimiento',
   skipToContent: 'Saltar al contenido',
   navWatchlist: 'Seguimiento',

@@ -34,8 +34,8 @@ test('language and theme pills update the settings context', async () => {
   await screen.findByRole('button', { name: 'Español' })
   expect(screen.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true')
 
-  fireEvent.click(screen.getByRole('button', { name: 'Light' }))
-  expect(document.documentElement.dataset.theme).toBe('light')
+  fireEvent.click(screen.getByRole('button', { name: 'Dark' }))
+  expect(document.documentElement.dataset.theme).toBe('dark')
 
   fireEvent.click(screen.getByRole('button', { name: 'Español' }))
   expect(await screen.findByRole('heading', { level: 1, name: 'Ajustes' })).toBeInTheDocument()

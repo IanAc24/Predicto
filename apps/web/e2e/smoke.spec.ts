@@ -72,8 +72,8 @@ test('settings switch language and theme', async ({ page }) => {
   const nav = page.getByRole('navigation', { name: 'Principal' })
   await expect(nav.getByRole('link', { name: 'Seguimiento' })).toBeVisible()
   await expect(nav.getByRole('link', { name: 'Historial' })).toBeVisible()
-  await page.getByRole('button', { name: 'Claro' }).click()
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  await page.getByRole('button', { name: 'Oscuro' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
 })
 
 test('scenario=error shows an error with retry on the watchlist', async ({ page }) => {
