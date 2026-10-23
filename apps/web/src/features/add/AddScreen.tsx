@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSearchInstruments, useWatchlist } from '../../api/hooks'
 import type { Instrument } from '../../api/types'
 import { useT } from '../../i18n/useT'
-import { Card, Pill, PillGroup, ScreenTitle, StatusScreen } from '../../ui'
+import { Card, Pill, PillGroup, ScreenTitle, StatusScreen, TextField } from '../../ui'
 import { FollowingList } from './FollowingList'
 import { ResultItem } from './ResultItem'
 
@@ -105,21 +105,16 @@ export function AddScreen() {
   return (
     <div className="flex flex-col gap-4">
       <ScreenTitle>{t('add.title')}</ScreenTitle>
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="add-search" className="text-xs uppercase tracking-wider text-muted">
-          {t('add.searchLabel')}
-        </label>
-        <input
-          ref={inputRef}
-          id="add-search"
-          type="search"
-          autoComplete="off"
-          value={draft}
-          placeholder={t('add.searchPlaceholder')}
-          onChange={(event) => setDraft(event.target.value)}
-          className="appearance-none rounded-xl border border-border bg-surface-2 px-3.5 py-3 text-base text-text"
-        />
-      </div>
+      <TextField
+        ref={inputRef}
+        id="add-search"
+        label={t('add.searchLabel')}
+        type="search"
+        autoComplete="off"
+        value={draft}
+        placeholder={t('add.searchPlaceholder')}
+        onChange={(event) => setDraft(event.target.value)}
+      />
       {renderResults()}
       <FollowingList />
     </div>

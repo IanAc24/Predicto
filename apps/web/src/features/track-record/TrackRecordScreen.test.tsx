@@ -2,18 +2,18 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createMemoryHistory, createRouter } from '@tanstack/react-router'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, beforeEach, expect, test } from 'vitest'
-import { createMockStore, mockConfig, mockStore } from '../../api/mock'
+import { mockConfig, mockStore, resetMockStore } from '../../api/mock'
 import { routeTree } from '../../routeTree.gen'
 import { SettingsProvider } from '../../settings/SettingsProvider'
 import { LiveHero } from './LiveHero'
 
 beforeEach(() => {
   mockConfig.delayMs = 0
+  resetMockStore('default')
 })
 
 afterEach(() => {
   localStorage.clear()
-  Object.assign(mockStore, createMockStore('default'))
 })
 
 function wrap(children: React.ReactNode) {
@@ -106,14 +106,14 @@ test('filters are read from the URL', async () => {
 })
 
 test('error scenario shows a retry', async () => {
-  Object.assign(mockStore, createMockStore('error'))
+  resetMockStore('error')
   renderScreen()
   expect(await screen.findByRole('alert')).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Retry' })).toBeInTheDocument()
 })
 
 test('empty scenario shows the empty state', async () => {
-  Object.assign(mockStore, createMockStore('empty'))
+  resetMockStore('empty')
   renderScreen()
   expect(await screen.findByText(/No predictions have resolved yet/)).toBeInTheDocument()
 })

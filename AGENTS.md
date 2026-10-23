@@ -23,8 +23,9 @@ Python backend and ML pipeline (FastAPI, uv) arrive in Phase 2; Python and uv ar
 - `pnpm test` - run Vitest
 - `pnpm lint` - run oxlint
 - `pnpm typecheck` - run tsc
+- `pnpm e2e` - run Playwright smoke and accessibility tests (Chromium; starts its own Vite server on port 5183; first time: `pnpm --filter web exec playwright install chromium`)
 
-All four of build, test, lint and typecheck must pass before a work package is done.
+All of build, test, lint and typecheck must pass (and e2e when UI behaviour changes) before a work package is done.
 
 ## Rules
 

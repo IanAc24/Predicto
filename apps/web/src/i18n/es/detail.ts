@@ -45,8 +45,5 @@ export const detail: DetailDict = {
   recentEmpty: 'Todavía no se han emitido predicciones para esta acción.',
   recentRow: '{probability} frente a {baseRate} base',
   recentIssued: 'Emitida el {date}',
-  outcomeHit: 'Acierto',
-  outcomeMiss: 'Fallo',
-  outcomePending: 'Pendiente',
   excessReturn: 'frente a {benchmark}',
 }

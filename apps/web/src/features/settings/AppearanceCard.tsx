@@ -1,7 +1,7 @@
 import type { Language } from '../../i18n'
 import { useT } from '../../i18n/useT'
 import { useSettings } from '../../settings/useSettings'
-import { Card, Label, Pill, PillGroup } from '../../ui'
+import { SectionCard, Label, Pill, PillGroup } from '../../ui'
 
 const LANGUAGES: { value: Language; label: string }[] = [
   { value: 'en', label: 'English' },
@@ -13,10 +13,7 @@ export function AppearanceCard() {
   const { language, setLanguage, theme, setTheme } = useSettings()
 
   return (
-    <Card aria-labelledby="appearance-title">
-      <h2 id="appearance-title" className="font-display text-base font-semibold">
-        {t('settings.appearanceTitle')}
-      </h2>
+    <SectionCard headingStyle="title" title={t('settings.appearanceTitle')}>
       <div className="mt-4 flex flex-col gap-5">
         <div>
           <Label id="language-label">{t('settings.language')}</Label>
@@ -45,6 +42,6 @@ export function AppearanceCard() {
           </PillGroup>
         </div>
       </div>
-    </Card>
+    </SectionCard>
   )
 }

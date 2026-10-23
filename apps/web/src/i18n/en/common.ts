@@ -15,13 +15,15 @@ export const common = {
   loading: 'Loading…',
   loadError: 'Something went wrong while loading this.',
   retry: 'Retry',
-  emptyTitle: 'Nothing here yet',
   stateObserving: 'Observing · day {day} of {total}',
   stateActive: '{probability} vs {baseRate} base',
   stateNoSignal: 'No signal',
   change: 'Change',
   up: 'up',
   down: 'down',
+  outcomeHit: 'Hit',
+  outcomeMiss: 'Miss',
+  outcomePending: 'Pending',
 } as const
 
 export type CommonDict = Record<keyof typeof common, string>

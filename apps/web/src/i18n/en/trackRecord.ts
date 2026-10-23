@@ -4,7 +4,6 @@ export const trackRecord = {
   hitRate: 'Hit rate',
   hitRateDetail: '95% interval {low} to {high} · n = {n} resolved predictions',
   baselineLabel: 'Always-up baseline',
-  baselineDetail: 'Hit rate if every week were called "up"',
   intervalLabel: 'Hit rate interval from {low} to {high}; baseline {baseline}',
   insufficientTitle: 'Insufficient evidence yet',
   insufficientBody:
@@ -37,9 +36,6 @@ export const trackRecord = {
   weekOf: 'Week of {date}',
   issued: 'Issued {date}',
   probabilityMeta: '{probability} probability',
-  outcomeHit: 'Hit',
-  outcomeMiss: 'Miss',
-  outcomePending: 'Pending',
   excessReturn: 'Excess return',
   ledgerNoMatches: 'No predictions match these filters.',
   hypotheticalTitle: 'Hypothetical (backtest)',

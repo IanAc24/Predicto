@@ -3,18 +3,13 @@ import { RouterProvider, createMemoryHistory, createRouter } from '@tanstack/rea
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 
 import { afterEach, beforeEach, expect, test } from 'vitest'
-import { mockConfig, mockStore } from '../../api/mock'
-import type { Scenario } from '../../api/types'
+import { mockConfig, mockStore, resetMockStore, setMockScenario } from '../../api/mock'
 import { routeTree } from '../../routeTree.gen'
 import { SettingsProvider } from '../../settings/SettingsProvider'
 
-function setScenario(scenario: Scenario) {
-  ;(mockStore as { scenario: Scenario }).scenario = scenario
-}
-
 beforeEach(() => {
   mockConfig.delayMs = 0
-  setScenario('default')
+  resetMockStore('default')
   // The mock store is a module singleton: start every test with an empty watchlist.
   for (const item of mockStore.getWatchlist()) mockStore.removeFromWatchlist(item.instrument.id)
 })
@@ -120,18 +115,18 @@ test('a failed add shows a recoverable message with retry', async () => {
   await renderAt('/add?q=nke')
   const addButton = await screen.findByRole('button', { name: 'Add Nike (NKE, NYSE)' })
   await waitFor(() => expect(addButton).toBeEnabled())
-  setScenario('error')
+  setMockScenario('error')
   fireEvent.click(addButton)
   const alert = await screen.findByRole('alert')
   expect(alert).toHaveTextContent('Could not add Nike. Nothing was changed.')
-  setScenario('default')
+  setMockScenario('default')
   fireEvent.click(within(alert).getByRole('button', { name: 'Retry' }))
   await screen.findByText(/Observing for 6 weeks/)
   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 })
 
 test('the error scenario shows a load error with retry for the search', async () => {
-  setScenario('error')
+  resetMockStore('error')
   await renderAt('/add?q=nke')
   await waitFor(() => expect(screen.getAllByRole('alert').length).toBeGreaterThan(0))
   expect(screen.getAllByRole('button', { name: 'Retry' }).length).toBeGreaterThan(0)

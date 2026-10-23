@@ -6,7 +6,6 @@ export const trackRecord: TrackRecordDict = {
   hitRate: 'Tasa de aciertos',
   hitRateDetail: 'Intervalo del 95% de {low} a {high} · n = {n} predicciones resueltas',
   baselineLabel: 'Referencia siempre al alza',
-  baselineDetail: 'Tasa de aciertos si cada semana se diera como "al alza"',
   intervalLabel: 'Intervalo de la tasa de aciertos de {low} a {high}; referencia {baseline}',
   insufficientTitle: 'Aún no hay evidencia suficiente',
   insufficientBody:
@@ -39,9 +38,6 @@ export const trackRecord: TrackRecordDict = {
   weekOf: 'Semana del {date}',
   issued: 'Emitida el {date}',
   probabilityMeta: 'probabilidad {probability}',
-  outcomeHit: 'Acierto',
-  outcomeMiss: 'Fallo',
-  outcomePending: 'Pendiente',
   excessReturn: 'Rendimiento excedente',
   ledgerNoMatches: 'Ninguna predicción coincide con estos filtros.',
   hypotheticalTitle: 'Hipotético (backtest)',

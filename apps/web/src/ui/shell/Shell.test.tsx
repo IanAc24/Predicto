@@ -47,12 +47,17 @@ test('shell shows brand, tabs, settings link and disclaimer', async () => {
 test.each([
   ['/', 'Watchlist'],
   ['/add', 'Add a stock'],
-  ['/stocks/NYSE:NKE', 'Stock detail'],
   ['/track-record', 'Track record'],
   ['/settings', 'Settings'],
 ])('route %s renders its title', async (path, title) => {
   await renderAt(path)
   await waitFor(() => expect(screen.getByRole('heading', { level: 1, name: title })).toBeInTheDocument())
+})
+
+test('the detail route titles the page with the instrument name', async () => {
+  await renderAt('/stocks/NYSE:NKE')
+  expect(await screen.findByRole('heading', { level: 1, name: /Nike/ })).toBeInTheDocument()
+  expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1)
 })
 
 test('no stale banner with fresh data', async () => {

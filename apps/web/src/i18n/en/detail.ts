@@ -41,9 +41,6 @@ export const detail = {
   recentEmpty: 'No predictions have been issued for this stock yet.',
   recentRow: '{probability} vs {baseRate} base',
   recentIssued: 'Issued {date}',
-  outcomeHit: 'Hit',
-  outcomeMiss: 'Miss',
-  outcomePending: 'Pending',
   excessReturn: 'vs {benchmark}',
 } as const
 

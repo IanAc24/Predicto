@@ -1,7 +1,7 @@
 import type { TrackRecord } from '../../api/types'
 import { useT } from '../../i18n/useT'
 import { formatDate } from '../../lib/format'
-import { Card, Label } from '../../ui'
+import { SectionCard } from '../../ui'
 
 /** Hits stacked on misses, one column per week. Text alternative is a table for screen readers. */
 export function WeeklyBars({ weekly }: { weekly: TrackRecord['weekly'] }) {
@@ -13,8 +13,7 @@ export function WeeklyBars({ weekly }: { weekly: TrackRecord['weekly'] }) {
     )
 
   return (
-    <Card aria-labelledby="weekly-title">
-      <Label id="weekly-title">{t('trackRecord.weeklyTitle')}</Label>
+    <SectionCard title={t('trackRecord.weeklyTitle')}>
       <div className="mt-3 flex gap-4 text-xs text-muted">
         <span className="inline-flex items-center gap-1.5">
           <span aria-hidden="true" className="size-2.5 rounded-sm bg-up" />
@@ -62,6 +61,6 @@ export function WeeklyBars({ weekly }: { weekly: TrackRecord['weekly'] }) {
           ))}
         </tbody>
       </table>
-    </Card>
+    </SectionCard>
   )
 }

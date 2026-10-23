@@ -3,8 +3,11 @@ import { cx } from '../lib/cx'
 import { Button } from './Button'
 import { Card } from './Card'
 import { Logo } from './shell/Logo'
+import { useAfterDelay } from './useAfterDelay'
 
-/** Loading or error card for a whole screen or section. Errors offer a retry. */
+const LOADING_DELAY_MS = 150
+
+/** Loading or error card for a whole screen or section. Errors offer a retry. Loading appears after a short delay so quick loads do not flash. */
 export function StatusScreen({
   status,
   text,
@@ -17,6 +20,8 @@ export function StatusScreen({
 }) {
   const { t } = useT()
   const loading = status === 'loading'
+  const showLoading = useAfterDelay(loading, LOADING_DELAY_MS)
+  if (loading && !showLoading) return null
 
   return (
     <Card className="flex flex-col items-center gap-4 text-center">

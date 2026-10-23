@@ -2,21 +2,17 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createMemoryHistory, createRouter } from '@tanstack/react-router'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, expect, test } from 'vitest'
-import { createMockStore, mockConfig, mockStore } from '../../api/mock'
+import { mockConfig, mockStore, resetMockStore } from '../../api/mock'
 import { routeTree } from '../../routeTree.gen'
 import { SettingsProvider } from '../../settings/SettingsProvider'
 
-let original = mockStore.getUserSettings()
-
 beforeEach(() => {
   mockConfig.delayMs = 0
-  original = mockStore.getUserSettings()
+  resetMockStore('default')
 })
 
 afterEach(() => {
   localStorage.clear()
-  mockStore.updateUserSettings(original)
-  Object.assign(mockStore, createMockStore('default'))
 })
 
 function renderSettings() {
@@ -67,13 +63,13 @@ test('shows horizon, data status and disclaimer', async () => {
 })
 
 test('stale scenario shows the stale warning', async () => {
-  Object.assign(mockStore, createMockStore('stale'))
+  resetMockStore('stale')
   renderSettings()
   expect(await screen.findByRole('alert')).toHaveTextContent(/out of date/)
 })
 
 test('error scenario shows retry buttons', async () => {
-  Object.assign(mockStore, createMockStore('error'))
+  resetMockStore('error')
   renderSettings()
   await waitFor(() => expect(screen.getAllByRole('button', { name: 'Retry' }).length).toBeGreaterThan(0))
 })

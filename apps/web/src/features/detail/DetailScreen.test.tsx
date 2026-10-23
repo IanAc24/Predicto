@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createMemoryHistory, createRouter } from '@tanstack/react-router'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
-import { mockConfig, mockStore } from '../../api/mock'
+import { mockConfig, resetMockStore, setMockScenario } from '../../api/mock'
 import { routeTree } from '../../routeTree.gen'
 import { SettingsProvider } from '../../settings/SettingsProvider'
 
@@ -28,15 +28,12 @@ vi.mock('lightweight-charts', () => {
   }
 })
 
-const store = mockStore as { scenario: string }
-const originalScenario = store.scenario
-
 beforeEach(() => {
   mockConfig.delayMs = 0
+  resetMockStore('default')
 })
 
 afterEach(() => {
-  store.scenario = originalScenario
   localStorage.clear()
   vi.clearAllMocks()
 })
@@ -70,7 +67,7 @@ test('active prediction shows probability with base rate, record, definition, mo
     'data-direction',
     'down',
   )
-  expect(screen.getByRole('heading', { level: 2, name: /Nike/ })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { level: 1, name: /Nike/ })).toBeInTheDocument()
   expect(screen.getByRole('link', { name: /Back to the watchlist/ })).toHaveAttribute('href', '/')
 })
 
@@ -142,16 +139,16 @@ test('unknown instrument shows an empty state with a link back', async () => {
 })
 
 test('error scenario shows an error with retry that recovers', async () => {
-  store.scenario = 'error'
+  resetMockStore('error')
   renderAt('/stocks/NYSE:NKE')
   expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong')
-  store.scenario = 'default'
+  setMockScenario('default')
   fireEvent.click(screen.getByRole('button', { name: 'Retry' }))
   expect(await screen.findByText('58%')).toBeInTheDocument()
 })
 
 test('shows a loading status first', async () => {
-  mockConfig.delayMs = 50
+  mockConfig.delayMs = 300
   renderAt('/stocks/NYSE:NKE')
   expect(await screen.findByRole('status')).toHaveTextContent('Loading')
 })

@@ -4,7 +4,17 @@ import { useT } from '../../i18n/useT'
 export function SkipLink() {
   const { t } = useT()
   return (
-    <a className="skip-link" href="#main">
+    <a
+      className="skip-link"
+      href="#main"
+      onClick={(event) => {
+        // Move focus ourselves: the router does not reliably do it for in-page anchors.
+        event.preventDefault()
+        const main = document.getElementById('main')
+        main?.focus()
+        main?.scrollIntoView()
+      }}
+    >
       {t('common.skipToContent')}
     </a>
   )

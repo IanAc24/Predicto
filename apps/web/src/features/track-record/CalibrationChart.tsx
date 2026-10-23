@@ -1,7 +1,7 @@
 import type { TrackRecord } from '../../api/types'
 import { useT } from '../../i18n/useT'
 import { formatPercent } from '../../lib/format'
-import { Card, Label } from '../../ui'
+import { SectionCard } from '../../ui'
 
 const SIZE = 240
 const PAD = 28
@@ -17,8 +17,7 @@ export function CalibrationChart({ calibration }: { calibration: TrackRecord['ca
   const ticks = [0, 0.25, 0.5, 0.75, 1]
 
   return (
-    <Card aria-labelledby="calibration-title">
-      <Label id="calibration-title">{t('trackRecord.calibrationTitle')}</Label>
+    <SectionCard title={t('trackRecord.calibrationTitle')}>
       <p className="mt-2 text-[13px] leading-snug text-muted">{t('trackRecord.calibrationIntro')}</p>
       <svg
         viewBox={`0 0 ${SIZE} ${SIZE}`}
@@ -84,6 +83,6 @@ export function CalibrationChart({ calibration }: { calibration: TrackRecord['ca
           ))}
         </tbody>
       </table>
-    </Card>
+    </SectionCard>
   )
 }

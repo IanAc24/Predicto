@@ -21,3 +21,19 @@ export const mockConfig = { delayMs: 250 }
 
 export { createMockStore } from './store'
 export type { MockStore } from './store'
+
+/**
+ * Test helper: replaces the data behind `mockStore` with a fresh store for `scenario`.
+ * The singleton object stays the same, so hooks that already imported it see the new data.
+ */
+export function resetMockStore(scenario: Scenario = 'default'): void {
+  Object.assign(mockStore, createMockStore(scenario))
+}
+
+/**
+ * Test helper: switches only the scenario flag, keeping the current data. Use it to make calls
+ * fail mid-test ('error') and recover afterwards; use `resetMockStore` for a different data set.
+ */
+export function setMockScenario(scenario: Scenario): void {
+  Object.assign(mockStore, { scenario })
+}

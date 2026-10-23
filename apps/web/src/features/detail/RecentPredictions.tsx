@@ -1,9 +1,7 @@
 import type { Instrument, LedgerEntry } from '../../api/types'
 import { useT } from '../../i18n/useT'
 import { formatDate, formatProbability } from '../../lib/format'
-import { Card, Label, Row, SignedChange } from '../../ui'
-
-const SHAPE = { hit: '●', miss: '■', pending: '▼' } as const
+import { OutcomeBadge, Row, SectionCard } from '../../ui'
 
 export function RecentPredictions({
   entries,
@@ -23,20 +21,12 @@ export function RecentPredictions({
     .slice(0, 8)
 
   return (
-    <Card aria-labelledby="recent-heading">
-      <Label id="recent-heading">{t('detail.recentTitle')}</Label>
+    <SectionCard title={t('detail.recentTitle')}>
       {recent.length === 0 ? (
         <p className="mt-3 text-sm text-muted">{t('detail.recentEmpty')}</p>
       ) : (
         <ul className="mt-3 flex flex-col gap-3">
-          {recent.map((entry) => {
-            const outcome =
-              entry.outcome === 'hit'
-                ? t('detail.outcomeHit')
-                : entry.outcome === 'miss'
-                  ? t('detail.outcomeMiss')
-                  : t('detail.outcomePending')
-            return (
+          {recent.map((entry) => (
               <li key={entry.id} data-outcome={entry.outcome}>
                 <Row
                   name={t('detail.recentRow', {
@@ -47,27 +37,18 @@ export function RecentPredictions({
                     date: formatDate(entry.issuedAt, instrument.timeZone, locale),
                   })}
                   right={
-                    <span className="flex flex-col items-end gap-0.5 text-sm">
-                      <span>
-                        <span aria-hidden="true">{SHAPE[entry.outcome]} </span>
-                        {outcome}
-                      </span>
-                      {entry.excessReturn !== null && (
-                        <span className="text-xs font-normal">
-                          <SignedChange value={entry.excessReturn} />{' '}
-                          <span className="text-muted">
-                            {t('detail.excessReturn', { benchmark })}
-                          </span>
-                        </span>
-                      )}
-                    </span>
+                    <OutcomeBadge
+                      outcome={entry.outcome}
+                      excessReturn={entry.excessReturn}
+                      excessLabel={t('detail.excessReturn', { benchmark })}
+                      showExcessLabel
+                    />
                   }
                 />
               </li>
-            )
-          })}
+          ))}
         </ul>
       )}
-    </Card>
+    </SectionCard>
   )
 }

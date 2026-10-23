@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
-import { expect, test } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import { SettingsProvider } from '../settings/SettingsProvider'
-import { ProgressBar, SignedChange, Sparkline, StateBadge, StatusScreen } from './index'
+import { ConfirmButton, OutcomeBadge, ProgressBar, SignedChange, Sparkline, StateBadge, StatusScreen } from './index'
 
 const wrap = (node: ReactNode) => render(<SettingsProvider>{node}</SettingsProvider>)
 
@@ -61,4 +61,44 @@ test('StatusScreen error offers a retry', () => {
   expect(screen.getByRole('alert')).toBeInTheDocument()
   screen.getByRole('button', { name: 'Retry' }).click()
   expect(retried).toBe(true)
+})
+
+test('OutcomeBadge pairs each outcome with a glyph and a word', () => {
+  const { rerender } = wrap(<OutcomeBadge outcome="hit" excessReturn={1.2} excessLabel="Excess return" />)
+  expect(screen.getByText('Hit')).toBeInTheDocument()
+  expect(screen.getByText('✓')).toBeInTheDocument()
+  expect(screen.getByText('+1.2%')).toBeInTheDocument()
+  rerender(
+    <SettingsProvider>
+      <OutcomeBadge outcome="pending" excessReturn={null} excessLabel="Excess return" />
+    </SettingsProvider>,
+  )
+  expect(screen.getByText('Pending')).toBeInTheDocument()
+  expect(screen.queryByText('Excess return')).not.toBeInTheDocument()
+})
+
+test('ConfirmButton asks first, and Escape backs out', () => {
+  const onConfirm = vi.fn()
+  render(
+    <ConfirmButton
+      label="Remove"
+      question="Remove it?"
+      confirmLabel="Yes"
+      pendingLabel="Removing…"
+      cancelLabel="Cancel"
+      retryLabel="Retry"
+      errorText="Failed"
+      pending={false}
+      failed={false}
+      onConfirm={onConfirm}
+    />,
+  )
+  fireEvent.click(screen.getByRole('button', { name: 'Remove' }))
+  expect(onConfirm).not.toHaveBeenCalled()
+  expect(screen.getByRole('button', { name: 'Cancel' })).toHaveFocus()
+  fireEvent.keyDown(screen.getByRole('group'), { key: 'Escape' })
+  expect(screen.getByRole('button', { name: 'Remove' })).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: 'Remove' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Yes' }))
+  expect(onConfirm).toHaveBeenCalledTimes(1)
 })

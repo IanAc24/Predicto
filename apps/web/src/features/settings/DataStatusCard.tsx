@@ -1,6 +1,6 @@
 import { useDataStatus } from '../../api/hooks'
 import { useT } from '../../i18n/useT'
-import { Card, Row, StatusScreen } from '../../ui'
+import { SectionCard, Row, StatusScreen } from '../../ui'
 
 export function DataStatusCard() {
   const { t, locale } = useT()
@@ -15,10 +15,7 @@ export function DataStatusCard() {
   )
 
   return (
-    <Card aria-labelledby="data-title">
-      <h2 id="data-title" className="font-display text-base font-semibold">
-        {t('settings.dataTitle')}
-      </h2>
+    <SectionCard headingStyle="title" title={t('settings.dataTitle')}>
       <div className="mt-4 flex flex-col gap-3">
         <Row name={t('settings.provider')} right={status.data.provider} />
         <Row name={t('settings.lastRun')} right={<time dateTime={status.data.lastRun}>{lastRun}</time>} />
@@ -29,6 +26,6 @@ export function DataStatusCard() {
           {status.data.stale ? `⚠ ${t('settings.staleWarning')}` : `✓ ${t('settings.fresh')}`}
         </p>
       </div>
-    </Card>
+    </SectionCard>
   )
 }

@@ -1,9 +1,9 @@
-import type { LedgerEntry, LedgerOutcome } from '../../api/types'
+import type { LedgerEntry } from '../../api/types'
 import { useT } from '../../i18n/useT'
 import type { TranslationKey } from '../../i18n'
-import { cx } from '../../lib/cx'
+import { mondayOf } from '../../lib/dates'
 import { formatDate, formatProbability } from '../../lib/format'
-import { Card, Label, Pill, PillGroup, Row, SignedChange } from '../../ui'
+import { OutcomeBadge, Pill, PillGroup, Row, SectionCard, Select } from '../../ui'
 import { OUTCOME_FILTERS, type OutcomeFilter } from './search'
 
 const FILTER_KEYS: Record<OutcomeFilter, TranslationKey> = {
@@ -11,20 +11,6 @@ const FILTER_KEYS: Record<OutcomeFilter, TranslationKey> = {
   hit: 'trackRecord.filterHits',
   miss: 'trackRecord.filterMisses',
   pending: 'trackRecord.filterPending',
-}
-
-const OUTCOME_VIEW: Record<LedgerOutcome, { key: TranslationKey; icon: string; className: string }> = {
-  hit: { key: 'trackRecord.outcomeHit', icon: '✓', className: 'text-up' },
-  miss: { key: 'trackRecord.outcomeMiss', icon: '✗', className: 'text-down' },
-  pending: { key: 'trackRecord.outcomePending', icon: '…', className: 'text-muted' },
-}
-
-/** Monday of the week containing a 'YYYY-MM-DD' date, as 'YYYY-MM-DD'. */
-function mondayOf(date: string): string {
-  const d = new Date(`${date}T00:00:00Z`)
-  const offset = (d.getUTCDay() + 6) % 7
-  d.setUTCDate(d.getUTCDate() - offset)
-  return d.toISOString().slice(0, 10)
 }
 
 export function Ledger({
@@ -61,8 +47,7 @@ export function Ledger({
   }
 
   return (
-    <Card aria-labelledby="ledger-title">
-      <Label id="ledger-title">{t('trackRecord.ledgerTitle')}</Label>
+    <SectionCard title={t('trackRecord.ledgerTitle')}>
       <div className="mt-3 flex flex-col gap-3">
         <PillGroup aria-label={t('trackRecord.filterOutcomeLabel')}>
           {OUTCOME_FILTERS.map((value) => (
@@ -71,11 +56,10 @@ export function Ledger({
             </Pill>
           ))}
         </PillGroup>
-        <select
+        <Select
           aria-label={t('trackRecord.filterInstrumentLabel')}
           value={instrument ?? ''}
           onChange={(event) => onInstrumentChange(event.target.value || undefined)}
-          className="min-h-11 rounded-xl border border-border bg-surface-2 px-3 text-sm text-text"
         >
           <option value="">{t('trackRecord.filterAllInstruments')}</option>
           {instrumentIds.map((id) => (
@@ -83,7 +67,7 @@ export function Ledger({
               {nameOf(id)}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {visible.length === 0 ? (
@@ -95,9 +79,7 @@ export function Ledger({
               {t('trackRecord.weekOf', { date: formatDate(week, 'UTC', locale) })}
             </h3>
             <ul className="mt-2 flex flex-col divide-y divide-border">
-              {items.map((entry) => {
-                const view = OUTCOME_VIEW[entry.outcome]
-                return (
+              {items.map((entry) => (
                   <li key={entry.id} className="py-2.5">
                     <Row
                       name={nameOf(entry.instrumentId)}
@@ -107,27 +89,19 @@ export function Ledger({
                         probability: formatProbability(entry.probability, locale),
                       })}`}
                       right={
-                        <div className="flex flex-col items-end gap-0.5">
-                          <span className={cx('inline-flex items-center gap-1', view.className)}>
-                            <span aria-hidden="true">{view.icon}</span>
-                            {t(view.key)}
-                          </span>
-                          {entry.excessReturn !== null && (
-                            <span className="text-xs">
-                              <span className="sr-only">{t('trackRecord.excessReturn')} </span>
-                              <SignedChange value={entry.excessReturn} />
-                            </span>
-                          )}
-                        </div>
+                        <OutcomeBadge
+                          outcome={entry.outcome}
+                          excessReturn={entry.excessReturn}
+                          excessLabel={t('trackRecord.excessReturn')}
+                        />
                       }
                     />
                   </li>
-                )
-              })}
+              ))}
             </ul>
           </section>
         ))
       )}
-    </Card>
+    </SectionCard>
   )
 }

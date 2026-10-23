@@ -21,7 +21,7 @@
   --down: #fb7185;
   --down-dim: rgba(251, 113, 133, 0.62);
   --warning: #fbbf24;
-  --danger: #f35b5b;
+  --danger: #f66a6a;
 
   /* Hero card */
   --hero-from: #123038;
@@ -38,13 +38,13 @@
   --text: #14201f;
   --muted: #5b6b6a;
 
-  --accent: #0f766e;
-  --accent-dim: rgba(15, 118, 110, 0.3);
+  --accent: #0d6d65;
+  --accent-dim: rgba(13, 109, 101, 0.3);
   --on-accent: #ffffff;
 
-  --up: #15803d;
-  --down: #d1103f;
-  --down-dim: rgba(209, 16, 63, 0.62);
+  --up: #13733a;
+  --down: #c40f3a;
+  --down-dim: rgba(196, 15, 58, 0.62);
   --warning: #a04a08;
   --danger: #b91c1c;
 
@@ -98,6 +98,11 @@ h3,
 h4,
 p {
   margin: 0;
+}
+
+/* Keep focused controls clear of the sticky app bar */
+html {
+  scroll-padding-top: 88px;
 }
 
 /* Visible outline for keyboard navigation */

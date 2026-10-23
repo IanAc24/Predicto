@@ -2,7 +2,6 @@ import type { AddDict } from '../en/add'
 
 export const add: AddDict = {
   title: 'Agregar una acción',
-  placeholder: 'Busca una acción para seguirla.',
   searchLabel: 'Buscar por nombre de empresa o símbolo',
   searchPlaceholder: 'p. ej. Nike o NKE',
   hint: 'Escribe el nombre de una empresa o un símbolo para encontrar una acción que seguir.',

@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 import { useTrackRecord, useWatchlist } from '../../api/hooks'
 import type { WatchlistItem } from '../../api/types'
 import { useT } from '../../i18n/useT'
@@ -23,17 +22,6 @@ import {
 } from '../../ui'
 import { SORTS, sortItems, type Sort } from './sort'
 
-/** True once `active` has been true for `ms`, so quick loads do not flash a loading card. */
-function useAfterDelay(active: boolean, ms: number): boolean {
-  const [elapsed, setElapsed] = useState(false)
-  useEffect(() => {
-    if (!active) return
-    const timer = setTimeout(() => setElapsed(true), ms)
-    return () => clearTimeout(timer)
-  }, [active, ms])
-  return active && elapsed
-}
-
 const SORT_KEYS = {
   name: 'watchlist.sortName',
   change: 'watchlist.sortChange',
@@ -50,13 +38,12 @@ export function WatchlistScreen({
   const { t } = useT()
   const watchlist = useWatchlist()
   const items = watchlist.data
-  const showLoader = useAfterDelay(watchlist.isPending, 150)
 
   return (
     <div className="flex flex-col gap-4">
       <ScreenTitle>{t('watchlist.title')}</ScreenTitle>
       {watchlist.isPending ? (
-        showLoader && <StatusScreen status="loading" />
+        <StatusScreen status="loading" />
       ) : watchlist.isError || !items ? (
         <StatusScreen status="error" onRetry={() => void watchlist.refetch()} />
       ) : items.length === 0 ? (

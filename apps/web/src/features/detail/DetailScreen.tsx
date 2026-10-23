@@ -38,6 +38,7 @@ export function DetailScreen() {
   const instrumentQuery = useInstrument(instrumentId)
   const predictionQuery = usePrediction(instrumentId)
 
+  // Until the instrument loads there is no name to show, so these states carry a hidden title.
   const heading = <ScreenTitle className="sr-only">{t('detail.title')}</ScreenTitle>
 
   if (instrumentQuery.isPending || predictionQuery.isPending) {
@@ -77,15 +78,7 @@ export function DetailScreen() {
     )
   }
 
-  return (
-    <>
-      {heading}
-      <DetailContent
-        instrument={instrumentQuery.data}
-        prediction={predictionQuery.data}
-      />
-    </>
-  )
+  return <DetailContent instrument={instrumentQuery.data} prediction={predictionQuery.data} />
 }
 
 function DetailContent({
@@ -125,10 +118,10 @@ function DetailContent({
 
       <header className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <div className="min-w-0">
-          <h2 className="font-display text-xl font-semibold min-[900px]:text-2xl">
+          <h1 className="font-display text-xl font-semibold min-[900px]:text-2xl">
             {instrument.name}{' '}
             <span className="text-muted">{instrument.symbol}</span>
-          </h2>
+          </h1>
           <p className="mt-0.5 text-xs text-muted">
             {t('detail.meta', {
               exchange: instrument.exchange,

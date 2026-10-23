@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useUpdateUserSettings } from '../../api/hooks'
 import type { Currency, UserSettings } from '../../api/types'
 import { useT } from '../../i18n/useT'
-import { Button, Card, Label, Pill, PillGroup } from '../../ui'
+import { Button, SectionCard, Label, Pill, PillGroup } from '../../ui'
 
 const WEEK_OPTIONS = [4, 6, 8]
 const BENCHMARKS = ['SPY']
@@ -20,11 +20,7 @@ export function PredictionSettings({ initial }: { initial: UserSettings }) {
   }
 
   return (
-    <Card aria-labelledby="prediction-settings-title">
-      <h2 id="prediction-settings-title" className="font-display text-base font-semibold">
-        {t('settings.predictionTitle')}
-      </h2>
-
+    <SectionCard headingStyle="title" title={t('settings.predictionTitle')}>
       <div className="mt-4 flex flex-col gap-5">
         <div>
           <Label id="obs-label">{t('settings.observationWeeks')}</Label>
@@ -88,6 +84,6 @@ export function PredictionSettings({ initial }: { initial: UserSettings }) {
           </p>
         </div>
       </div>
-    </Card>
+    </SectionCard>
   )
 }

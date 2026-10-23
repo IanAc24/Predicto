@@ -1,6 +1,5 @@
 export const add = {
   title: 'Add a stock',
-  placeholder: 'Search for a stock to follow.',
   searchLabel: 'Search by company name or symbol',
   searchPlaceholder: 'e.g. Nike or NKE',
   hint: 'Type a company name or a symbol to find a stock to follow.',
