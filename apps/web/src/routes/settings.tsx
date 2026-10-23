@@ -1,10 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useT } from '../i18n/useT'
-import { ScreenTitle } from '../ui'
+import { SettingsScreen } from '../features/settings/SettingsScreen'
 
 export const Route = createFileRoute('/settings')({ component: SettingsScreen })
-
-function SettingsScreen() {
-  const { t } = useT()
-  return <ScreenTitle>{t('settings.title')}</ScreenTitle>
-}
